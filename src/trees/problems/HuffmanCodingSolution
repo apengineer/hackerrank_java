@@ -1,0 +1,78 @@
+import java.util.*;
+ 
+abstract class Node implements Comparable<Node> {
+    
+  	public  int frequency; // the frequency of this tree
+    public  char data;
+    public  Node left, right; 
+    public Node(int freq) { 
+    	frequency = freq;
+   	}
+ 
+    // compares on the frequency
+    public int compareTo(Node tree) {
+        return frequency - tree.frequency;
+    }
+  
+}
+ 
+class HuffmanLeaf extends Node {
+    
+    public HuffmanLeaf(int freq, char val) {
+        super(freq);
+        data = val;
+    }
+  
+}
+ 
+class HuffmanNode extends Node {
+    
+    public HuffmanNode(Node l, Node r) {
+        super(l.frequency + r.frequency);
+        left = l;
+        right = r;
+    }
+
+}
+
+
+class Decoding {
+
+/*  
+	class Node
+		public  int frequency; // the frequency of this tree
+    	public  char data;
+    	public  Node left, right;
+    
+*/ 
+
+    void decode(String s, Node root) {
+
+        char[] charArray = s.toCharArray();
+        String res =   "";
+        Node curNode = root;
+        for(int i = 0; i < charArray.length; i++) {
+            char curChar = charArray[i];          
+            if(curChar == '1') { // move right
+                curNode = curNode.right;
+                if(curNode.data == '\0') { // if null, move further down. also increase the i              
+                  continue;                       
+                } else { // add to result and go back to head
+                    res += curNode.data;
+                    curNode = root;
+
+                }
+            } else if(curChar == '0') { // move left
+                curNode = curNode.left;
+                if(curNode.data == '\0') {
+                  continue; 
+                    
+                } else {
+                    res += curNode.data;
+                    curNode = root;
+                }
+            }
+        }
+        System.out.println(res);
+    }
+
